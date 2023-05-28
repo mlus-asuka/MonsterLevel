@@ -1,0 +1,17 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license = "GPL-3.0"
+issueTrackerURL = ""
+
+[[mods]]
+modId = "monsterlevel"
+displayTest="IGNORE_ALL_VERSION"
+updateJSONURL=""
+version = "1.0"
+displayName = "MonsterLevel"
+displayURL = ""
+credits = "Made for fun."
+authors = "mlus"
+description = '''
+Add Random Level of Monster
+'''
