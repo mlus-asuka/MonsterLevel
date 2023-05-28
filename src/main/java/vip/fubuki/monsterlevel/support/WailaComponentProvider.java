@@ -28,6 +28,9 @@ public enum WailaComponentProvider implements IEntityComponentProvider {
             if(target.hasEffect(Objects.requireNonNull(MobEffect.byId(10)))){
                 level += Objects.requireNonNull(target.getEffect(Objects.requireNonNull(MobEffect.byId(10)))).getAmplifier()+1;
             }
+            if(target.hasEffect(Objects.requireNonNull(MobEffect.byId(1)))){
+                level += Objects.requireNonNull(target.getEffect(Objects.requireNonNull(MobEffect.byId(1)))).getAmplifier()+1;
+            }
             if(target.hasEffect(Objects.requireNonNull(MobEffect.byId(11)))){
                 level += (Objects.requireNonNull(target.getEffect(Objects.requireNonNull(MobEffect.byId(11)))).getAmplifier()+1)*10;
             }

@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[43,)"
 license = "GPL-3.0"
-issueTrackerURL = ""
+issueTrackerURL = "https://github.com/mlus-asuka/MonsterLevel/issues"
 
 [[mods]]
 modId = "monsterlevel"
@@ -9,7 +9,7 @@ displayTest="IGNORE_ALL_VERSION"
 updateJSONURL=""
 version = "1.0"
 displayName = "MonsterLevel"
-displayURL = ""
+displayURL = "https://github.com/mlus-asuka/MonsterLevel"
 credits = "Made for fun."
 authors = "mlus"
 description = '''

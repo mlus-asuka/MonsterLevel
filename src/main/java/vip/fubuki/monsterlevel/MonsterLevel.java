@@ -1,8 +1,10 @@
 package vip.fubuki.monsterlevel;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,6 +15,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.slf4j.Logger;
 import vip.fubuki.monsterlevel.config.ConfigForge;
 
 import java.util.Objects;
@@ -57,16 +60,25 @@ public class MonsterLevel {
             if (TotalLevel<0) return;
             int RegenerationLevel=(int)Math.ceil(configuration.getMAX_REGENERATION_LEVEL().get()*Math.random());
             RegenerationLevel=Math.min(RegenerationLevel,TotalLevel);
-            MobEffectInstance Regeneration=new MobEffectInstance(Objects.requireNonNull(MobEffect.byId(10)),86400,RegenerationLevel-1,false,false);
-            mob.addEffect(Regeneration);
+            if(mob.getMobType()== MobType.UNDEAD) {
+                MobEffectInstance Regeneration = new MobEffectInstance(MobEffect.byId(10), 86400, RegenerationLevel - 1, false, false);
+                mob.addEffect(Regeneration);
+            }
 
             TotalLevel-=RegenerationLevel;
+            if (TotalLevel<0) return;
+            int SpeedLevel= (int)Math.floor(configuration.getMAX_SPEED_LEVEL().get()*Math.random());
+            MobEffectInstance Speed=new MobEffectInstance(MobEffect.byId(1));
+            mob.addEffect(Speed);
+            TotalLevel-=SpeedLevel;
+
             if (TotalLevel<0) return;
             int ResistanceLevel= (int)Math.ceil(configuration.getMAX_RESISTANCE_LEVEL().get()*Math.random());
             ResistanceLevel=Math.min(ResistanceLevel,TotalLevel)/10;
             if(ResistanceLevel==0) return;
             MobEffectInstance Resistance=new MobEffectInstance(Objects.requireNonNull(MobEffect.byId(11)),86400,ResistanceLevel-1,false,false);
             mob.addEffect(Resistance);
+
         }
     }
 }

@@ -21,6 +21,8 @@ public class ConfigForge{
 
     private final IntValue MAX_STRENGTH_LEVEL;
 
+    private final IntValue MAX_SPEED_LEVEL;
+
     private final ForgeConfigSpec.ConfigValue<List<? extends String>> ACTIVE_ENTITY;
 
     public ConfigForge() {
@@ -37,15 +39,19 @@ public class ConfigForge{
 
         builder.comment("Max Health level of one mob.");
         builder.comment("0<=MaxHealthLevel<=50");
-        this.MAX_HEALTH_LEVEL = builder.defineInRange("MaxHealthLevel", 5,0,50);
+        this.MAX_HEALTH_LEVEL = builder.defineInRange("MaxHealthLevel", 4,0,50);
 
         builder.comment("Max Strength level of one mob.");
         builder.comment("0<=MaxStrengthLevel<=50");
-        this.MAX_STRENGTH_LEVEL = builder.defineInRange("MaxSpeedLevel", 5,0,50);
+        this.MAX_STRENGTH_LEVEL = builder.defineInRange("MaxStrengthLevel", 4,0,50);
 
         builder.comment("Max Regeneration level of one mob.");
         builder.comment("0<=MaxRegenerationLevel<=50");
-        this.MAX_REGENERATION_LEVEL = builder.defineInRange("MaxRegenerationLevel", 5,0,50);
+        this.MAX_REGENERATION_LEVEL = builder.defineInRange("MaxRegenerationLevel", 4,0,50);
+
+        builder.comment("Max Speed Level of one mob.");
+        builder.comment("0<=MaxSpeedLevel<=50");
+        this.MAX_SPEED_LEVEL = builder.defineInRange("MaxSpeedLevel", 4,0,50);
 
         builder.comment("Max Resistance level of one mob.");
         builder.comment("=Effect Amplifier*10");
@@ -87,6 +93,8 @@ public class ConfigForge{
     public IntValue getMAX_STRENGTH_LEVEL() {
         return MAX_STRENGTH_LEVEL;
     }
+
+    public IntValue getMAX_SPEED_LEVEL() {return MAX_SPEED_LEVEL;}
 
     public ForgeConfigSpec.ConfigValue<List<? extends String>> getACTIVE_ENTITY() {return ACTIVE_ENTITY;}
 }
