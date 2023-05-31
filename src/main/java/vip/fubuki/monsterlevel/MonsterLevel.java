@@ -1,6 +1,5 @@
 package vip.fubuki.monsterlevel;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.slf4j.Logger;
 import vip.fubuki.monsterlevel.config.ConfigForge;
 
 import java.util.Objects;
@@ -29,19 +27,16 @@ public class MonsterLevel {
     public MonsterLevel() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(Type.COMMON, this.configuration.getSpec());
-        modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         //if (FMLEnvironment.dist == Dist.CLIENT) {}
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {}
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinLevelEvent event) {
         if(event.getEntity() instanceof Mob mob){
             if(mob.getTags().contains("hasLevel")) return;
             String name = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType())).toString();
-
             if(!this.configuration.getACTIVE_ENTITY().get().contains(name)) return;
             mob.addTag("hasLevel");
             int TotalLevel= configuration.getTOTAL_MAX_LEVEL().get();
@@ -61,14 +56,14 @@ public class MonsterLevel {
             int RegenerationLevel=(int)Math.ceil(configuration.getMAX_REGENERATION_LEVEL().get()*Math.random());
             RegenerationLevel=Math.min(RegenerationLevel,TotalLevel);
             if(mob.getMobType()== MobType.UNDEAD) {
-                MobEffectInstance Regeneration = new MobEffectInstance(MobEffect.byId(10), 86400, RegenerationLevel - 1, false, false);
+                MobEffectInstance Regeneration = new MobEffectInstance(Objects.requireNonNull(MobEffect.byId(10)), 86400, RegenerationLevel - 1, false, false);
                 mob.addEffect(Regeneration);
             }
 
             TotalLevel-=RegenerationLevel;
             if (TotalLevel<0) return;
             int SpeedLevel= (int)Math.floor(configuration.getMAX_SPEED_LEVEL().get()*Math.random());
-            MobEffectInstance Speed=new MobEffectInstance(MobEffect.byId(1));
+            MobEffectInstance Speed=new MobEffectInstance(Objects.requireNonNull(MobEffect.byId(1)));
             mob.addEffect(Speed);
             TotalLevel-=SpeedLevel;
 
