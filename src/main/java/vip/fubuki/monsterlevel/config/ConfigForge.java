@@ -60,7 +60,7 @@ public class ConfigForge{
 
         builder.comment("Active Entity List.");
         List<String> defaultList = Stream.of("minecraft:slime", "minecraft:silverfish", "minecraft:zombie",
-                "minecraft:skeleton", "minecraft:creeper", "minecraft:spider", "minecraft:cave_spider",
+                "minecraft:skeleton", "minecraft:spider", "minecraft:cave_spider",
                 "minecraft:husk", "minecraft:stray", "minecraft:magma_cube", "minecraft:zombie_villager",
                 "minecraft:drowned", "minecraft:guardian", "minecraft:elder_guardian", "minecraft:phantom",
                 "minecraft:blaze", "minecraft:ghast", "minecraft:witch", "minecraft:hoglin", "minecraft:piglin_brute",
