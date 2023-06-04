@@ -1,6 +1,5 @@
 package vip.fubuki.monsterlevel;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.world.effect.AttackDamageMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,7 +23,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.slf4j.Logger;
 import vip.fubuki.monsterlevel.config.ConfigForge;
 
 import java.util.Iterator;
@@ -36,7 +34,6 @@ public class MonsterLevel {
     public static final String MODID="monsterlevel";
     private final ConfigForge configuration = new ConfigForge();
 
-    public static Logger logger= LogUtils.getLogger();
 
     public MonsterLevel() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -112,7 +109,6 @@ public class MonsterLevel {
             }
             float percentage= (float) (1-(Math.max((ProtectionLevel+Projectile_Protection*2)/25,0.8))*(1-Resistance*0.2));
             float damage = (float) (percentage*(3*level * ( 1 - Math.min( 20, Math.max(player.getArmorValue() / 5, player.getArmorValue() - (3*level) / (2 + (player.getAttributeValue(Attributes.ARMOR_TOUGHNESS)/ 4) ) ) / 25 ))));
-            logger.info(String.valueOf(damage));
             player.setHealth(player.getHealth()-damage);
         }
         }
