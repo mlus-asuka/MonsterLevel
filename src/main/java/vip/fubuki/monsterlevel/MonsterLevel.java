@@ -1,11 +1,20 @@
 package vip.fubuki.monsterlevel;
 
+import net.minecraft.world.effect.AttackDamageMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -16,6 +25,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import vip.fubuki.monsterlevel.config.ConfigForge;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 @Mod(MonsterLevel.MODID)
@@ -74,6 +84,29 @@ public class MonsterLevel {
             MobEffectInstance Resistance=new MobEffectInstance(Objects.requireNonNull(MobEffect.byId(11)),86400,ResistanceLevel-1,false,false);
             mob.addEffect(Resistance);
 
+        }
+    }
+    @SubscribeEvent
+    public void onHitedByProjectile(LivingHurtEvent event) {
+        if (event.getEntity() instanceof Player player){
+        if (event.getSource() == null) return;
+        if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
+            Mob owner = (Mob) projectile.getOwner();
+            if((Entity)owner instanceof Player) return;
+            if (!owner.hasEffect(Objects.requireNonNull(MobEffect.byId(5)))) return;
+            int level = owner.getEffect(Objects.requireNonNull(MobEffect.byId(5))).getAmplifier() + 1;
+            Iterator<ItemStack> iterator= player.getArmorSlots().iterator();
+            int ProtectionLevel=0;
+            int Projectile_Protection=0;
+            while (iterator.hasNext()){
+                ProtectionLevel+=iterator.next().getEnchantmentLevel(Enchantment.byId(0));
+                Projectile_Protection+=iterator.next().getEnchantmentLevel(Enchantment.byId(4));
+            }
+            int Resistance=player.getEffect(Objects.requireNonNull(MobEffect.byId(11))).getAmplifier()+1;
+            float percentage= (float) (Math.min((ProtectionLevel+Projectile_Protection*2)/25,0.8)*(1-Resistance*0.2));
+            float damage = (float) (percentage*(3*level * ( 1 - Math.min( 20, Math.max(player.getArmorValue() / 5, player.getArmorValue() - (3*level) / (2 + (event.getEntity().getAttributeValue(Attributes.ARMOR_TOUGHNESS)/ 4) ) ) / 25 ))));
+            event.getEntity().setHealth(player.getHealth()-damage);
+        }
         }
     }
 }
