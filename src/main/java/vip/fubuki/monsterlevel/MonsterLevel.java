@@ -93,6 +93,7 @@ public class MonsterLevel {
         if (event.getSource() == null) return;
         if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
             Mob owner = (Mob) projectile.getOwner();
+            if(owner==null) return;
             if((Entity)owner instanceof Player) return;
             if (!owner.hasEffect(Objects.requireNonNull(MobEffect.byId(5)))) return;
             int level = owner.getEffect(Objects.requireNonNull(MobEffect.byId(5))).getAmplifier() + 1;
